@@ -4,6 +4,7 @@ const { Show, Band, ShowsBands, Genre } = require('../db/index');
 const Shows = Router();
 
 Shows.get('/', (req, res) => {
+  console.log(req.query, 'GET');
   res.send('idk man');
 });
 

@@ -1,13 +1,23 @@
 import React, { useState } from 'react';
+import Axios from 'axios';
 import {
-  Col, Container, Form, Row,
+  Col, Container, Form, Row, Button,
 } from 'react-bootstrap';
 
 const Search = () => {
-  const [band, setBand] = useState('');
-  const [date, setDate] = useState('');
-  const [venue, setVenue] = useState('');
-  const [genre, setGenre] = useState('');
+  const [band, setBand] = useState('Nickelback');
+  const [date, setDate] = useState('2020-10-10');
+  const [venue, setVenue] = useState('The Willow, Willow Street, New Orleans, LA, USA ');
+  const [genre, setGenre] = useState('Alternative');
+
+  const getShows = (query, type) => {
+    Axios.get('/api/shows/', {
+      params: {
+        query,
+        type,
+      },
+    });
+  };
 
   return (
     <div className="container-fluid" style={{ margin: 'auto' }}>
@@ -56,6 +66,13 @@ const Search = () => {
                       />
                     </Col>
                   </Form.Group>
+                  <Button
+                    as={Row}
+                    type="reset"
+                    onClick={() => getShows(band, 'band')}
+                  >
+                    Submit
+                  </Button>
                 </Form>
               </div>
             </Row>
