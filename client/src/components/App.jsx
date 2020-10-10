@@ -12,13 +12,8 @@ import {
 } from 'react-bootstrap';
 import { useCookies } from 'react-cookie';
 import Map from './Add/TestMap';
-<<<<<<< HEAD
-import Landing from './Landing/Landing';
-// import Profile from './Profile/Profile';
-=======
 import Gallery from './Gallery/Gallery';
 import Landing from './Landing/Landing';
->>>>>>> feat/gallery
 import SetupProfile from './ProfileSetup/Setup';
 import Search from './search/Search';
 import Splash from './splash/Splash';
@@ -112,11 +107,7 @@ const App = () => {
                   {view !== 'Setup' && <Nav.Item style={{ color: '#d2d2d2' }}>{user}</Nav.Item>}
                   <Nav.Link onClick={() => { setView('Add'); }}>Add</Nav.Link>
                   <Nav.Link onClick={() => { setView('Search'); }}>Search</Nav.Link>
-<<<<<<< HEAD
-                  <Nav.Link onClick={() => { setView('Profile'); }}>Gallery</Nav.Link>
-=======
                   <Nav.Link onClick={() => { setView('Gallery'); }}>Gallery</Nav.Link>
->>>>>>> feat/gallery
                   <Nav.Link>Logout</Nav.Link>
                 </Nav>
               </Navbar>
