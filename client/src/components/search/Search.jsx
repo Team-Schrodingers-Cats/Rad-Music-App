@@ -11,12 +11,19 @@ const Search = () => {
   const [genre, setGenre] = useState('Alternative');
 
   const getShows = (query, type) => {
-    Axios.get('/api/shows/', {
-      params: {
-        query,
-        type,
-      },
-    });
+    const params = { query, type };
+    if (type === 'band') {
+      Axios.get('/api/shows/band', { params })
+        .then((response) => {
+          console.log(response);
+        });
+    } else if (type === 'venue') {
+      // TODO: add dis
+    } else if (type === 'genre') {
+      // TODO: add dis
+    } else if (type === 'date') {
+      // TODO: add dis
+    }
   };
 
   return (

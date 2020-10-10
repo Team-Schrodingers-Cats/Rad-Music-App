@@ -1,11 +1,85 @@
+/* eslint-disable no-await-in-loop */
 const { Router } = require('express');
 const { Show, Band, ShowsBands, Genre } = require('../db/index');
 
 const Shows = Router();
 
-Shows.get('/', (req, res) => {
-  console.log(req.query, 'GET');
-  res.send('idk man');
+Shows.get('/band', async (req, res) => {
+  const { query, type } = req.query;
+  const resp = { bandInfo: { bandName: query }, bandShows: [] };
+  const bandId = await Band.findOne({
+    where: resp.bandInfo,
+  })
+    .then((band) => {
+      if (band) {
+        resp.bandInfo.genreId = band.dataValues.genreId;
+        return band.dataValues.id;
+      }
+      throw band;
+    });
+  await ShowsBands.findAll({
+    where: {
+      bandId,
+    },
+  })
+    .then(async (foundShowsBands) => {
+      for (let i = 0; i < foundShowsBands.length; i++) {
+        const { showId } = foundShowsBands[i].dataValues;
+        const showInfoMaybe = await Show.findOne({
+          where: {
+            id: showId,
+          },
+        })
+          .then((something) => ({
+            date: something.dataValues.date,
+            venue: something.dataValues.venue,
+            lat: something.dataValues.lat,
+            lng: something.dataValues.lng,
+            details: something.dataValues.details,
+          }));
+        resp.bandShows.push(showInfoMaybe);
+      }
+    });
+  res.send(resp);
+});
+
+Shows.get('/', async (req, res) => {
+  const { query, type } = req.query;
+  const resp = { bandInfo: { bandName: query }, bandShows: [] };
+  const bandId = await Band.findOne({
+    where: resp.bandInfo,
+  })
+    .then((band) => {
+      if (band) {
+        resp.bandInfo.genreId = band.dataValues.genreId;
+        return band.dataValues.id;
+      }
+      throw band;
+    });
+  await ShowsBands.findAll({
+    where: {
+      bandId,
+    },
+  })
+    .then(async (foundShowsBands) => {
+      for (let i = 0; i < foundShowsBands.length; i++) {
+        const { showId } = foundShowsBands[i].dataValues;
+        const showInfoMaybe = await Show.findOne({
+          where: {
+            id: showId,
+          },
+        })
+          .then((something) => ({
+            date: something.dataValues.date,
+            venue: something.dataValues.venue,
+            lat: something.dataValues.lat,
+            lng: something.dataValues.lng,
+            details: something.dataValues.details,
+          }));
+        resp.bandShows.push(showInfoMaybe);
+      }
+    });
+  res.send(resp);
 });
 
 Shows.post('/', async (req, res) => {
